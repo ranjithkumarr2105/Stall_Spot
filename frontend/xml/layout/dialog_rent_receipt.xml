@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_check_circle"
+        app:tint="#4CAF50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Payment Successful!"
+        android:textColor="#212121"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/receiptAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:textColor="#212121"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        tools:text="₹9,050.00" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"
+        android:layout_marginVertical="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:layout_alignParentStart="true" android:textColor="#757575" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payment ID"/>
+        <TextView android:id="@+id/receiptPaymentId" android:layout_alignParentEnd="true" android:textColor="#212121" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="pay_AbcdeFG123"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <TextView android:layout_alignParentStart="true" android:textColor="#757575" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Date"/>
+        <TextView android:id="@+id/receiptPaymentDate" android:layout_alignParentEnd="true" android:textColor="#212121" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="22 Oct 2025, 12:30 PM"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <TextView android:layout_alignParentStart="true" android:textColor="#757575" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Invoice ID"/>
+        <TextView android:id="@+id/receiptInvoiceId" android:layout_alignParentEnd="true" android:textColor="#212121" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="#123"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/receiptLateFeeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+        <TextView android:layout_alignParentStart="true" android:textColor="#D32F2F" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Late Fee Paid"/>
+        <TextView android:id="@+id/receiptLateFeeAmount" android:layout_alignParentEnd="true" android:textColor="#D32F2F" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="₹50.00"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/downloadReceiptButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Download PDF" />
+
+        <Button
+            android:id="@+id/closeReceiptButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Close" />
+    </LinearLayout>
+</LinearLayout>

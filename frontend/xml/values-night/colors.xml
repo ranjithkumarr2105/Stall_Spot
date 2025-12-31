@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_pink">#FF8A8A</color>
+    <color name="colorSurface">#1C1C1E</color>
+    <color name="colorBackground">#000000</color>
+    <color name="colorOnSurface">#EAEAEB</color>
+    <color name="colorOnSurfaceSecondary">#8E8E93</color>
+    <color name="colorBorder">#38383A</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

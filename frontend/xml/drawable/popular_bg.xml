@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF6B6B" />         <!-- Soft red background -->
+    <corners android:radius="26dp" />         <!-- Big round corners for card effect -->
+</shape>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/rounded_background_white">
+
+    <ImageView
+        android:id="@+id/metricIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        tools:src="@drawable/ic_orders"
+        app:tint="#FF6B6B" />
+
+    <TextView
+        android:id="@+id/metricCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#222222"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="32"
+
+        android:lines="1"
+        android:ellipsize="end"
+        />
+
+    <TextView
+        android:id="@+id/metricTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        tools:text="Orders Today" />
+
+</LinearLayout>

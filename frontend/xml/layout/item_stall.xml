@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_search"
+    android:layout_marginTop="10dp"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/iv_stall"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/stall_sample1"
+        android:background="@drawable/bg_circle_white"
+        android:elevation="2dp"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/tv_stall_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pizza Hub"
+            android:textSize="16sp"
+            android:textColor="#222"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/star_big_on"/>
+            <TextView
+                android:id="@+id/tv_stall_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.8"
+                android:textColor="#FFD700"
+                android:textSize="13sp"
+                android:layout_marginStart="3dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_stall_cuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Italian"
+            android:textColor="#888"
+            android:textSize="13sp"
+            android:layout_marginTop="1dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@android:drawable/ic_lock_idle_alarm"/>
+
+            <TextView
+                android:id="@+id/tv_stall_timings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:00 AM - 10:00 PM"
+                android:textColor="#888"
+                android:textSize="13sp"
+                android:layout_marginStart="3dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Open/Closed indicator -->
+    <ImageView
+        android:id="@+id/iv_open"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/bg_dot_open"/>
+</LinearLayout>

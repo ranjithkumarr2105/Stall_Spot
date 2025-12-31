@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/stallIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_store"/>
+
+        <TextView
+            android:id="@+id/stallNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/stallIcon"
+            app:layout_constraintTop_toTopOf="@id/stallIcon"
+            app:layout_constraintEnd_toStartOf="@id/percentageChangeTextView"
+            android:layout_marginEnd="8dp"
+            tools:text="Stall Name Here" />
+
+        <TextView
+            android:id="@+id/previousMonthRevenueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/stallNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/stallNameTextView"
+            tools:text="Last Month: ₹4500.00" />
+
+        <TextView
+            android:id="@+id/currentMonthRevenueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/stallNameTextView"
+            tools:text="₹5200.00" />
+
+        <TextView
+            android:id="@+id/percentageChangeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintEnd_toStartOf="@id/trendIcon"
+            app:layout_constraintTop_toBottomOf="@id/currentMonthRevenueTextView"
+            app:layout_constraintBottom_toBottomOf="@id/trendIcon"
+            tools:text="+15.6%"
+            tools:textColor="@color/green"/>
+
+        <ImageView
+            android:id="@+id/trendIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/currentMonthRevenueTextView"
+            tools:src="@drawable/ic_trending_up"
+            tools:tint="@color/green"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

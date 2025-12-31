@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.Foodstall" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_pink</item>
+
+        <!-- START OF BACK BUTTON FIX -->
+        <!-- This line enables the OnBackPressedDispatcher for modern Android versions -->
+        <item name="android:enableOnBackInvokedCallback">true</item>
+        <!-- END OF BACK BUTTON FIX -->
+
+    </style>
+</resources>

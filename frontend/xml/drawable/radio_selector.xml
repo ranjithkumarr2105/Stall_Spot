@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When the radio button is checked, use the solid white background -->
+    <item android:drawable="@drawable/radio_checked_background" android:state_checked="true" />
+    <!-- By default (unchecked), use the outlined background -->
+    <item android:drawable="@drawable/radio_unchecked_background" android:state_checked="false" />
+</selector>

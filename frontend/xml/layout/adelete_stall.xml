@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    tools:context=".Adelete_stallActivity">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FF6B6B"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Edit Stall"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Stall Image -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/stallImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/stall_sample2"
+                app:civ_border_color="@android:color/darker_gray"
+                app:civ_border_width="1dp" />
+
+            <!-- Stall Name -->
+            <TextView style="@style/FormLabelStyle" android:text="Stall Name" />
+            <EditText
+                android:id="@+id/stallNameEditText"
+                style="@style/FormInputStyle"
+                android:hint="Enter stall name" />
+
+            <!-- Owner ID -->
+            <TextView style="@style/FormLabelStyle" android:text="Owner ID" />
+            <EditText
+                android:id="@+id/ownerIdEditText"
+                style="@style/FormInputStyle"
+                android:hint="Enter owner ID"
+                android:enabled="false"
+                android:background="@drawable/rounded_background_gray" />
+
+            <!-- Owner Name -->
+            <TextView style="@style/FormLabelStyle" android:text="Owner Name" />
+            <EditText
+                android:id="@+id/ownerNameEditText"
+                style="@style/FormInputStyle"
+                android:hint="Enter owner name" />
+
+            <!-- Latitude -->
+            <TextView style="@style/FormLabelStyle" android:text="Latitude" />
+            <EditText
+                android:id="@+id/latitudeEditText"
+                style="@style/FormInputStyle"
+                android:hint="Enter latitude"
+                android:inputType="numberDecimal" />
+
+            <!-- Longitude -->
+            <TextView style="@style/FormLabelStyle" android:text="Longitude" />
+            <EditText
+                android:id="@+id/longitudeEditText"
+                style="@style/FormInputStyle"
+                android:hint="Enter longitude"
+                android:inputType="numberDecimal" />
+
+            <!-- Temporarily Closed Switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Temporarily Closed"
+                    android:textColor="#222222"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/closedSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Reason for Closure (conditionally visible) -->
+            <EditText
+                android:id="@+id/reasonEditText"
+                style="@style/FormInputStyle"
+                android:layout_marginTop="8dp"
+                android:hint="Reason for temporary closure..."
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:gravity="top|start"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
+                android:text="Save Changes"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:cornerRadius="12dp" />
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:text="Delete Stall"
+                android:backgroundTint="#F44336"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

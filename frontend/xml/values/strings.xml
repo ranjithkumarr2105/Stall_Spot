@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">foodstall</string>
+    <string name="don_t_have_an_account_signup_here">Don\'t have an account? Signup here</string>
+    <string name="login">Login</string>
+    <string name="enter_your_password">Enter your Password</string>
+    <string name="enter_your_id">Enter your ID</string>
+    <string name="stall_spot">Stall Spot</string>
+    <string name="skip_for_now">Skip for Now</string>
+    <string name="Continue">Continue</string>
+    <string name="app_permissions_needed">App Permissions Needed</string>
+    <string name="todo">TODO</string>
+
+    <string name="default_web_client_id" translatable="false">509454588471-u9op25cl4k78cr83rlp1vtqklouhkq50.apps.googleusercontent.com</string>
+
+    <string name="mapbox_access_token" translatable="false">pk.eyJ1IjoicmFuaml0aGt1bWFyMDUiLCJhIjoiY21lcW03cHMzMHk3YzJqczU3bzNnczRkYyJ9.8frinY8g012rb2NQVorYqA</string>
+
+    <string name="admin_privacy_policy_text">
+        "Effective Date: September 1, 2025\n\n"
+        "Welcome to Stall Spot. This Privacy Policy explains how we collect, use, and protect information in relation to our mobile application.\n\n"
+        "1. Information We Collect:\n"
+        "   - Account Information: When you create an admin account, we collect your name, email, and contact number.\n"
+        "   - Stall Information: We collect details about food stalls, including names, owner details, FSSAI numbers, and location data (latitude and longitude).\n"
+        "   - Transactional Information: We process information about stall approvals, rejections, and other administrative actions.\n\n"
+        "2. How We Use Your Information:\n"
+        "   - To manage and verify new stall applications.\n"
+        "   - To communicate with stall owners regarding their application status.\n"
+        "   - To maintain a database of approved and active stalls.\n"
+        "   - To analyze stall performance and user engagement for service improvement.\n\n"
+        "3. Data Sharing:\n"
+        "   We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our application, so long as those parties agree to keep this information confidential.\n\n"
+        "4. Data Security:\n"
+        "   We implement a variety of security measures to maintain the safety of your personal information. All data is stored on secure servers and is accessible only by a limited number of persons who have special access rights.\n\n"
+        "5. Your Consent:\n"
+        "   By using our app, you consent to our privacy policy.\n\n"
+        "6. Contact Us:\n"
+        "   If you have any questions regarding this privacy policy, you may contact us at support@stallspot.com."
+    </string>
+</resources>

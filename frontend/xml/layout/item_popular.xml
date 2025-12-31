@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="96dp"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="8dp">
+
+    <ImageView
+        android:id="@+id/iv_popular"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@drawable/pd1"
+        android:background="@drawable/bg_circle_white"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_popular_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pasta"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_popular_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$10.99"
+        android:textColor="#FFF"
+        android:textSize="12sp"/>
+</LinearLayout>

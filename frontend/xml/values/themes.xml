@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Foodstall" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_pink</item>
+
+
+    </style>
+
+    <style name="Theme.Foodstall" parent="Base.Theme.Foodstall" />
+</resources>
