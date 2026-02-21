@@ -36,6 +36,7 @@ $conn->close();
 $total_revenue = 0;
 $delivered_count = 0;
 $rejected_count = 0;
+
 foreach ($orders as $order) {
     if ($order['order_status'] === 'Delivered') {
         $total_revenue += $order['total_amount'];
@@ -44,6 +45,9 @@ foreach ($orders as $order) {
         $rejected_count++;
     }
 }
+
+// Calculate Base Rent (10% of Revenue)
+$base_rent = $total_revenue * 0.10;
 
 // Create PDF
 $pdf = new FPDF();
@@ -58,19 +62,32 @@ $month_name = DateTime::createFromFormat('!m', $month)->format('F');
 $pdf->Cell(0, 10, 'Report for: ' . $month_name . ' ' . $year, 0, 1, 'C');
 $pdf->Ln(10);
 
-// Summary
+// Summary Section
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(95, 10, 'Total Revenue (from Delivered Orders):', 1, 0, 'L');
+
+// Row 1: Revenue
+$pdf->Cell(95, 10, 'Total Revenue (Delivered Only):', 1, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(95, 10, 'Rs. ' . number_format($total_revenue, 2), 1, 1, 'R');
+
+// Row 2: Base Rent (NEW)
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(95, 10, 'Base Rent Amount (10%):', 1, 0, 'L');
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(95, 10, 'Rs. ' . number_format($base_rent, 2), 1, 1, 'R');
+
+// Row 3: Delivered Count
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(95, 10, 'Delivered Orders:', 1, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(95, 10, $delivered_count, 1, 1, 'R');
+
+// Row 4: Rejected Count
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(95, 10, 'Rejected Orders:', 1, 0, 'L');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(95, 10, $rejected_count, 1, 1, 'R');
+
 $pdf->Ln(10);
 
 // Table Header
@@ -87,10 +104,11 @@ foreach ($orders as $order) {
     $pdf->Cell(40, 8, $order['display_order_id'], 1, 0, 'L');
     $pdf->Cell(60, 8, date('d-m-Y H:i A', strtotime($order['order_date'])), 1, 0, 'L');
     
+    // Status Coloring
     if ($order['order_status'] === 'Delivered') {
-        $pdf->SetTextColor(34, 139, 34); // ForestGreen
+        $pdf->SetTextColor(34, 139, 34); // Green
     } else {
-        $pdf->SetTextColor(220, 20, 60); // Crimson
+        $pdf->SetTextColor(220, 20, 60); // Red
     }
     $pdf->Cell(40, 8, $order['order_status'], 1, 0, 'C');
     $pdf->SetTextColor(0, 0, 0); // Reset color

@@ -38,33 +38,41 @@ try {
         throw new Exception("Invalid filter provided."); 
     }
 
-    // --- START OF MODIFIED SECTION ---
-    // The SQL query is updated to include 'parcel_status' in the items_json
+    // --- [THIS IS THE FIX] ---
+    // This query uses manual CONCAT to build the JSON string
+    // It does NOT use JSON_ARRAYAGG or JSON_OBJECT
     $sql = "
         SELECT 
             o.display_order_id, o.student_id, o.total_amount, o.subtotal, o.parcel_fee, o.order_status, 
             o.parcel_type, TIME_FORMAT(o.pickup_time, '%l:%i %p') as pickup_time,
             DATE_FORMAT(o.order_date, '%d %b, %h:%i %p') as order_date, 
-            COALESCE(GROUP_CONCAT(CONCAT(oi.item_name, ' × ', oi.quantity) SEPARATOR '\n'), 'No items found') as items_summary,
-            (
-                SELECT JSON_ARRAYAGG(
-                    JSON_OBJECT(
-                        'name', item_name, 
-                        'quantity', quantity, 
-                        'price', price, 
-                        'parcel_status', parcel_status
-                    )
-                ) 
-                FROM order_items 
-                WHERE order_id = o.order_id
-            ) as items_json
+            
+            COALESCE(GROUP_CONCAT(DISTINCT CONCAT(oi.item_name, ' × ', oi.quantity) SEPARATOR '\n'), 'No items found') as items_summary,
+            
+            -- Manually build the JSON array string
+            CONCAT('[', 
+                COALESCE(
+                    (SELECT GROUP_CONCAT(
+                        CONCAT(
+                            '{\"name\":\"', REPLACE(REPLACE(item_name, '\\\\', '\\\\\\\\'), '\"', '\\\"'), '\",', -- Escape quotes and backslashes
+                            '\"quantity\":', quantity, ',',
+                            '\"price\":', price, ',',
+                            '\"parcel_status\":\"', REPLACE(REPLACE(parcel_status, '\\\\', '\\\\\\\\'), '\"', '\\\"'), '\"}'
+                        )
+                    SEPARATOR ',')
+                    FROM order_items 
+                    WHERE order_id = o.order_id
+                    ), 
+                '')
+            , ']') as items_json
+            
         FROM orders o
         LEFT JOIN order_items oi ON o.order_id = oi.order_id
         WHERE o.stall_id = ? AND $status_condition $date_condition
         GROUP BY o.order_id
         ORDER BY o.order_date ASC
     ";
-    // --- END OF MODIFIED SECTION ---
+    // --- [END OF FIX] ---
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $stall_id);
@@ -76,6 +84,8 @@ try {
 
 } catch (Exception $e) { 
     http_response_code(500); 
+    // Log the error to your server log for debugging
+    error_log("O_get_orders.php Error: " . $e->getMessage()); 
     echo json_encode(["status" => "error", "message" => $e->getMessage()]); 
 }
 $conn->close();

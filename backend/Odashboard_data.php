@@ -60,23 +60,26 @@ try {
     $response['peak_hours'] = $stmt_peak->get_result()->fetch_all(MYSQLI_ASSOC);
     $stmt_peak->close();
     
-    // ***** NEW: RENT DETAILS CHECK *****
-    $current_month = date('n');
-    $current_year = date('Y');
-    
+    // --- RENT DETAILS ---
+    // [FIX] Changed logic to fetch the LATEST unpaid invoice, ensuring we catch any due bill.
     $stmt_rent = $conn->prepare(
         "SELECT invoice_id, total_revenue, rent_amount, late_fee, invoice_month, invoice_year 
          FROM rent_invoices 
-         WHERE stall_id = ? AND invoice_month = ? AND invoice_year = ? AND status = 'unpaid'"
+         WHERE stall_id = ? AND status = 'unpaid' 
+         ORDER BY invoice_id DESC LIMIT 1"
     );
-    $stmt_rent->bind_param("sii", $stall_id, $current_month, $current_year);
+    $stmt_rent->bind_param("s", $stall_id);
     $stmt_rent->execute();
     $rent_details = $stmt_rent->get_result()->fetch_assoc();
     $stmt_rent->close();
 
-    // If rent details are found, add them to the response, otherwise add null
-    $response['rent_details'] = $rent_details ? $rent_details : null;
-    // **********************************
+    // If rent details are found, calculate TOTAL DUE and add to response
+    if ($rent_details) {
+        $rent_details['total_due'] = (float)$rent_details['rent_amount'] + (float)$rent_details['late_fee'];
+        $response['rent_details'] = $rent_details;
+    } else {
+        $response['rent_details'] = null;
+    }
 
     echo json_encode(['status' => 'success', 'data' => $response]);
 

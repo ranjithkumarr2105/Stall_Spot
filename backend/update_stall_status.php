@@ -1,7 +1,7 @@
 <?php
 // Include PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP; // <-- REQUIRED FOR DEBUGGING
+use PHPMailer\PHPMailer\SMTP; 
 use PHPMailer\PHPMailer\Exception;
 
 require 'PHPMailer.php';
@@ -15,7 +15,7 @@ include 'config.php';
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// [NEW] Add a log to see if the file is even being called
+// Log request
 error_log("--- update_stall_status.php received a request ---");
 
 try {
@@ -23,7 +23,7 @@ try {
     $status = $_POST['status'] ?? null;
     $reason = $_POST['reason'] ?? null;
 
-    error_log("Received data: email=$email, status=$status"); // Log received data
+    error_log("Received data: email=$email, status=$status"); 
 
     if (empty($email) || !in_array($status, ['-1', '0', '1'], true)) {
         throw new Exception("Invalid email or status provided");
@@ -41,10 +41,11 @@ try {
     $check_stmt->close();
     
     $stall_name = $stall_data['stallname'];
+    $current_stall_id = $stall_data['stall_id']; // Get the current ID to clean up favorites
 
     if ($status === '1') {
         // --- APPROVE STALL ---
-        error_log("Attempting to approve stall for $email"); // Log action
+        error_log("Attempting to approve stall for $email"); 
 
         if (!empty($stall_data['stall_id'])) {
              throw new Exception("This stall has already been processed.");
@@ -73,21 +74,20 @@ try {
         $update_stmt->execute();
         
         try {
-            error_log("Entering APPROVAL email block for $email"); // Log email attempt
+            error_log("Entering APPROVAL email block for $email"); 
             $mail = new PHPMailer(true);
 
-            // --- [NEW] ADDED DEBUGGING ---
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Enable verbose debug output
+            // Debugging
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
             $mail->Debugoutput = function($str, $level) {
                 error_log("PHPMailer Debug ($level): $str");
             };
-            // --- END DEBUGGING ---
 
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'ranjithsuriya12345@gmail.com'; // Your email
-            $mail->Password = 'bkmm frmv ajem nyra'; // Your 16-digit App Password
+            $mail->Username = 'ranjithsuriya12345@gmail.com'; 
+            $mail->Password = 'madw rhms kvtv jndn'; 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
             $mail->setFrom('ranjithsuriya12345@gmail.com', 'Stall Spot Admin');
@@ -97,7 +97,7 @@ try {
             $mail->Body    = "<html><body><h2>Welcome to Stall Spot!</h2><p>We are excited to inform you that your stall, '<b>" . htmlspecialchars($stall_name) . "</b>', has been approved.</p><p>Your unique <b>Owner ID</b> is: <b>" . $generated_stall_id . "</b></p><p>You can now log in to the Stall Spot app using this ID (or your phone number) and your password to manage your stall.</p></body></html>";
             
             $mail->send();
-            error_log("Approval email SENT successfully to $email"); // Log success
+            error_log("Approval email SENT successfully to $email"); 
 
         } catch (Exception $e) {
             error_log("Approval email FAILED for " . $email . ": " . $mail->ErrorInfo);
@@ -107,7 +107,16 @@ try {
 
     } elseif ($status === '-1') {
         // --- REJECT STALL ---
-        error_log("Attempting to REJECT stall for $email"); // Log action
+        error_log("Attempting to REJECT stall for $email"); 
+
+        // [CRITICAL FIX] Remove from favorites first to prevent Foreign Key Crash
+        if (!empty($current_stall_id)) {
+            $del_fav_stmt = $conn->prepare("DELETE FROM favorite_stalls WHERE stall_id = ?");
+            $del_fav_stmt->bind_param("s", $current_stall_id);
+            $del_fav_stmt->execute();
+            $del_fav_stmt->close();
+            error_log("Removed stall $current_stall_id from favorites before rejection.");
+        }
 
         if (empty($reason)) {
             $reason = "Rejected by admin without a specific reason.";
@@ -118,21 +127,20 @@ try {
 
         // --- SEND REJECTION EMAIL ---
         try {
-            error_log("Entering REJECTION email block for $email"); // Log email attempt
+            error_log("Entering REJECTION email block for $email"); 
             $mail = new PHPMailer(true);
             
-            // --- [NEW] ADDED DEBUGGING ---
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Enable verbose debug output
+            // Debugging
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
             $mail->Debugoutput = function($str, $level) {
                 error_log("PHPMailer Debug ($level): $str");
             };
-            // --- END DEBUGGING ---
 
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'ranjithsuriya12345@gmail.com'; 
-            $mail->Password = 'bkmm frmv ajem nyra'; 
+            $mail->Password = 'madw rhms kvtv jndn'; 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
             $mail->setFrom('ranjithsuriya12345@gmail.com', 'Stall Spot Admin');
@@ -142,7 +150,7 @@ try {
             $mail->Body    = "<html><body><h2>Stall Spot Application Update</h2><p>We are writing to inform you about the status of your stall, '<b>" . htmlspecialchars($stall_name) . "</b>'.</p><p>After careful review, we regret to inform you that your application has been rejected.</p><p><b>Reason for Rejection:</b> " . htmlspecialchars($reason) . "</p><p>Thank you for your interest in Stall Spot.</p></body></html>";
             
             $mail->send();
-            error_log("Rejection email SENT successfully to $email"); // Log success
+            error_log("Rejection email SENT successfully to $email"); 
 
         } catch (Exception $e) {
             error_log("Rejection email FAILED for " . $email . ": " . $mail->ErrorInfo);
@@ -152,6 +160,15 @@ try {
 
     } elseif ($status === '0') {
         // --- SET TO PENDING ---
+        
+        // [CRITICAL FIX] Remove from favorites first here too (just in case)
+        if (!empty($current_stall_id)) {
+            $del_fav_stmt = $conn->prepare("DELETE FROM favorite_stalls WHERE stall_id = ?");
+            $del_fav_stmt->bind_param("s", $current_stall_id);
+            $del_fav_stmt->execute();
+            $del_fav_stmt->close();
+        }
+
         $update_stmt = $conn->prepare("UPDATE stalldetails SET approval = 0, stall_id = NULL, rejection_reason = NULL WHERE email = ?");
         $update_stmt->bind_param("s", $email);
         $update_stmt->execute();

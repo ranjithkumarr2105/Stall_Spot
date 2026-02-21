@@ -12,8 +12,7 @@ include __DIR__ . '/config.php';
 
 // CONFIG: Allowed client IDs (ensure this matches strings.xml AND google-services.json Web Client ID)
 $ALLOWED_CLIENT_IDS = [
-    '509454588471-pkbqseduu5j8bdh6ionk455pafhbii6t.apps.googleusercontent.com',
-    '509454588471-u9op25cl4k78cr83rlp1vtqklouhkq50.apps.googleusercontent.com',
+    '509454588471-pkbqseduu5j8bdh6ionk455pafhbii6t.apps.googleusercontent.com' 
 ];
 
 function log_debug($msg) {

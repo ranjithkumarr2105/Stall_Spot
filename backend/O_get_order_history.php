@@ -17,7 +17,7 @@ if (empty($date)) {
 }
 
 try {
-    // MODIFIED: Added 'refund_timestamp' to SELECT and filtered by status
+    // [FIX] Replaced JSON_ARRAYAGG and JSON_OBJECT with compatible CONCAT functions
     $sql = "
         SELECT 
             o.order_id,
@@ -33,24 +33,30 @@ try {
             o.payment_id,
             o.pickup_time,
             o.display_order_id,
-            o.refund_timestamp, -- Added this line
-            (
-                SELECT JSON_ARRAYAGG(
-                    JSON_OBJECT(
-                        'name', oi.item_name, 
-                        'quantity', oi.quantity, 
-                        'price', oi.price,
-                        'parcel_status', oi.parcel_status
-                    )
-                ) 
-                FROM order_items oi
-                WHERE oi.order_id = o.order_id
-            ) as items_json
+            o.refund_timestamp, -- This line is correct
+            
+            -- This is the new, backward-compatible way to build the JSON array
+            CONCAT('[', 
+                COALESCE(
+                    (SELECT GROUP_CONCAT(
+                        CONCAT(
+                            '{\"name\":\"', REPLACE(REPLACE(oi.item_name, '\\\\', '\\\\\\\\'), '\"', '\\\"'), '\",',
+                            '\"quantity\":', oi.quantity, ',',
+                            '\"price\":', oi.price, ',',
+                            '\"parcel_status\":\"', REPLACE(REPLACE(oi.parcel_status, '\\\\', '\\\\\\\\'), '\"', '\\\"'), '\"}'
+                        )
+                    SEPARATOR ',')
+                    FROM order_items oi
+                    WHERE oi.order_id = o.order_id
+                    ), 
+                '')
+            , ']') as items_json
+
         FROM orders o
         WHERE 
             o.stall_id = ? 
             AND DATE(o.order_date) = ?
-            AND o.order_status IN ('Delivered', 'Rejected') -- Added this line
+            AND o.order_status IN ('Delivered', 'Rejected') -- This line is correct
         ORDER BY 
             o.order_date DESC
     ";
@@ -62,10 +68,12 @@ try {
     $orders = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
     
-    echo json_encode($orders);
+    echo json_encode($orders); // Send the successful result
 
 } catch (Exception $e) { 
     http_response_code(500);
+    // Log the error for your own debugging
+    error_log("O_get_order_history.php Error: " . $e->getMessage()); 
     echo json_encode(["error" => "An internal server error occurred.", "message" => $e->getMessage()]); 
 }
 
